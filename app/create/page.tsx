@@ -2,6 +2,7 @@
 
 import { FormEvent, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
+import { withBasePath } from "@/src/lib/base-path";
 
 export default function CreateGamePage() {
   const router = useRouter();
@@ -19,7 +20,7 @@ export default function CreateGamePage() {
     setError("");
     setLoading(true);
 
-    const response = await fetch("/api/games", {
+    const response = await fetch(withBasePath("/api/games"), {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({

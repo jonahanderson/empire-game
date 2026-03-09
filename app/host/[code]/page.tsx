@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { useParams } from "next/navigation";
 import { CopyButton } from "@/src/components/copy-button";
+import { withBasePath } from "@/src/lib/base-path";
 
 type Player = {
   id: string;
@@ -39,7 +40,7 @@ export default function HostDashboardPage() {
   const [locking, setLocking] = useState(false);
 
   async function loadDashboard() {
-    const response = await fetch(`/api/host/${code}`, { cache: "no-store" });
+    const response = await fetch(withBasePath(`/api/host/${code}`), { cache: "no-store" });
     const json = (await response.json()) as Dashboard & { error?: string };
 
     if (!response.ok) {
@@ -62,14 +63,14 @@ export default function HostDashboardPage() {
       return "";
     }
     if (typeof window === "undefined") {
-      return data.game.invitePath;
+      return withBasePath(data.game.invitePath);
     }
-    return `${window.location.origin}${data.game.invitePath}`;
+    return `${window.location.origin}${withBasePath(data.game.invitePath)}`;
   }, [data]);
 
   async function onLockSubmissions() {
     setLocking(true);
-    await fetch(`/api/host/${code}`, {
+    await fetch(withBasePath(`/api/host/${code}`), {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ action: "lock_submissions" })

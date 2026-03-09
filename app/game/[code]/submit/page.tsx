@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { FormEvent, useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
+import { withBasePath } from "@/src/lib/base-path";
 
 type GameResponse = {
   code: string;
@@ -30,7 +31,7 @@ export default function SubmissionPage() {
     let mounted = true;
 
     async function load() {
-      const response = await fetch(`/api/games/${code}`);
+      const response = await fetch(withBasePath(`/api/games/${code}`));
       const json = (await response.json()) as GameResponse & { error?: string };
 
       if (!response.ok) {
@@ -74,7 +75,7 @@ export default function SubmissionPage() {
     }
 
     setSubmitting(true);
-    const response = await fetch(`/api/games/${code}/submit`, {
+    const response = await fetch(withBasePath(`/api/games/${code}/submit`), {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ famousPerson, confirm: true })

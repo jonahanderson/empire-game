@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
+import { withBasePath } from "@/src/lib/base-path";
 
 type MeResponse = {
   me: {
@@ -29,8 +30,8 @@ export default function WaitingPage() {
 
     async function load() {
       const [gameRes, meRes] = await Promise.all([
-        fetch(`/api/games/${code}`),
-        fetch(`/api/games/${code}/me`)
+        fetch(withBasePath(`/api/games/${code}`)),
+        fetch(withBasePath(`/api/games/${code}/me`))
       ]);
 
       if (!gameRes.ok) {

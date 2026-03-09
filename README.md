@@ -7,7 +7,7 @@ MVP web app for the Empire party game setup flow:
 - Submission requires confirmation and then moves to waiting screen
 - Host dashboard shows players + submitted status
 - Privacy rule enforced on backend:
-  - Host playing: cannot access submissions list
+  - Host playing: can view submissions anonymously (no player mapping)
   - Host not playing: can view all submissions mapped to players
 
 ## Stack
@@ -48,11 +48,20 @@ http://localhost:3000
 ## Deploy
 This app can deploy to any Node.js host that supports Next.js:
 
-### Option A: Vercel
+### Option A: Vercel (Root domain or subdomain)
 1. Push repo to GitHub
 2. Import into Vercel
 3. Framework preset: Next.js
 4. Deploy
+
+### Option A2: Vercel at `jonahanderson.me/empire` (path deploy)
+Set this environment variable in Vercel Project Settings before deploy:
+
+```text
+NEXT_PUBLIC_BASE_PATH=/empire
+```
+
+Then redeploy. The app will run under `/empire` and API routes under `/empire/api`.
 
 ### Option B: Render / Fly.io / Railway / VPS
 1. Build:
@@ -78,4 +87,4 @@ npm run start
 - Submissions are stored server-side only.
 - Regular players have no endpoint access to other players' submissions.
 - Host dashboard endpoint is protected by host session cookie.
-- When `hostPlays = true`, host dashboard response excludes submission content.
+- When `hostPlays = true`, host dashboard response includes submissions without player identity.

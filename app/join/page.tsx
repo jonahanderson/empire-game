@@ -2,6 +2,7 @@
 
 import { FormEvent, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { withBasePath } from "@/src/lib/base-path";
 
 export default function JoinGamePage() {
   const router = useRouter();
@@ -24,7 +25,7 @@ export default function JoinGamePage() {
 
     const cleanedCode = code.trim().toUpperCase();
 
-    const response = await fetch(`/api/games/${cleanedCode}/join`, {
+    const response = await fetch(withBasePath(`/api/games/${cleanedCode}/join`), {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ displayName })
