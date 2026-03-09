@@ -21,7 +21,7 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Host display name is required when host is playing." }, { status: 400 });
   }
 
-  const game = createGame({
+  const game = await createGame({
     name,
     theme: body.theme,
     hostPlays,

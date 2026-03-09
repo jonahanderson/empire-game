@@ -1,10 +1,10 @@
 import { NextResponse } from "next/server";
-import { getGameByCode, submitForPlayer } from "@/src/lib/store";
+import { getGameByCode, saveGame, submitForPlayer } from "@/src/lib/store";
 import { getPlayerSession } from "@/src/lib/session";
 
 export async function POST(request: Request, context: { params: Promise<{ code: string }> }) {
   const { code } = await context.params;
-  const game = getGameByCode(code);
+  const game = await getGameByCode(code);
 
   if (!game) {
     return NextResponse.json({ error: "Game not found." }, { status: 404 });
@@ -36,6 +36,7 @@ export async function POST(request: Request, context: { params: Promise<{ code: 
 
   try {
     submitForPlayer(game, playerId, famousPerson);
+    await saveGame(game);
   } catch (error) {
     if (error instanceof Error && error.message === "ALREADY_SUBMITTED") {
       return NextResponse.json({ error: "Submission already finalized." }, { status: 409 });

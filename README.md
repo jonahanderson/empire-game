@@ -51,6 +51,9 @@ This app can deploy to any Node.js host that supports Next.js:
 ### Option A: Vercel (Root domain or subdomain)
 1. Push repo to GitHub
 2. Import into Vercel
+3. Add KV storage (required for multi-device production):
+   - In Vercel: `Storage` -> `Create Database` -> `KV`
+   - Connect it to this project (Vercel will set `KV_REST_API_URL` and `KV_REST_API_TOKEN`)
 3. Framework preset: Next.js
 4. Deploy
 
@@ -81,7 +84,8 @@ npm run start
 ## MVP Notes
 - Game/session data is temporary and kept in memory; restarting the server clears games.
 - Cookie sessions persist across refreshes during session TTL (12 hours).
-- For multi-instance production scaling, replace in-memory store with Redis/Postgres.
+- If `KV_REST_API_URL` and `KV_REST_API_TOKEN` are set, game state is stored in Redis (recommended for production/multi-device).
+- Without KV vars, app falls back to in-memory storage (local dev only).
 
 ## Security/Privacy
 - Submissions are stored server-side only.

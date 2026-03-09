@@ -1,10 +1,10 @@
 import { NextResponse } from "next/server";
-import { getGameByCode, listPlayers } from "@/src/lib/store";
+import { getGameByCode, listPlayers, saveGame } from "@/src/lib/store";
 import { getHostSession } from "@/src/lib/session";
 
 export async function GET(_: Request, context: { params: Promise<{ code: string }> }) {
   const { code } = await context.params;
-  const game = getGameByCode(code);
+  const game = await getGameByCode(code);
 
   if (!game) {
     return NextResponse.json({ error: "Game not found." }, { status: 404 });
@@ -66,7 +66,7 @@ export async function GET(_: Request, context: { params: Promise<{ code: string 
 
 export async function POST(request: Request, context: { params: Promise<{ code: string }> }) {
   const { code } = await context.params;
-  const game = getGameByCode(code);
+  const game = await getGameByCode(code);
 
   if (!game) {
     return NextResponse.json({ error: "Game not found." }, { status: 404 });
@@ -80,6 +80,7 @@ export async function POST(request: Request, context: { params: Promise<{ code: 
   const body = (await request.json()) as { action?: string };
   if (body.action === "lock_submissions") {
     game.submissionsLocked = true;
+    await saveGame(game);
     return NextResponse.json({ locked: true });
   }
 

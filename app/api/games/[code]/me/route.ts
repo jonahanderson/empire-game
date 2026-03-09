@@ -4,7 +4,7 @@ import { getPlayerSession } from "@/src/lib/session";
 
 export async function GET(_: Request, context: { params: Promise<{ code: string }> }) {
   const { code } = await context.params;
-  const game = getGameByCode(code);
+  const game = await getGameByCode(code);
 
   if (!game) {
     return NextResponse.json({ error: "Game not found." }, { status: 404 });

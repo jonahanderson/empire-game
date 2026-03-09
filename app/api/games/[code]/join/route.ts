@@ -1,10 +1,10 @@
 import { NextResponse } from "next/server";
-import { addPlayerToGame, getGameByCode, listPlayers } from "@/src/lib/store";
+import { addPlayerToGame, getGameByCode, listPlayers, saveGame } from "@/src/lib/store";
 import { getPlayerSession, setPlayerSession } from "@/src/lib/session";
 
 export async function POST(request: Request, context: { params: Promise<{ code: string }> }) {
   const { code } = await context.params;
-  const game = getGameByCode(code);
+  const game = await getGameByCode(code);
 
   if (!game) {
     return NextResponse.json({ error: "Game not found." }, { status: 404 });
@@ -35,6 +35,7 @@ export async function POST(request: Request, context: { params: Promise<{ code: 
   }
 
   const player = addPlayerToGame(game, displayName);
+  await saveGame(game);
   await setPlayerSession(game.id, player.id);
 
   return NextResponse.json({ code: game.code, joined: true });
