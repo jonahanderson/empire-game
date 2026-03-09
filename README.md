@@ -45,45 +45,6 @@ http://localhost:3000
 6. Players see waiting screen after submit
 7. Host monitors joined/submitted status live (auto-refresh every 3s)
 
-## Deploy
-This app can deploy to any Node.js host that supports Next.js:
-
-### Option A: Vercel (Root domain or subdomain)
-1. Push repo to GitHub
-2. Import into Vercel
-3. Add Redis storage (required for multi-device production):
-   - In Vercel: `Storage` -> choose a Redis provider (typically Upstash in Marketplace)
-   - Connect it to this project
-   - Supported env vars:
-     - `KV_REST_API_URL` + `KV_REST_API_TOKEN` (legacy naming)
-     - or `UPSTASH_REDIS_REST_URL` + `UPSTASH_REDIS_REST_TOKEN` (common in marketplace integrations)
-3. Framework preset: Next.js
-4. Deploy
-
-### Option A2: Vercel at `jonahanderson.me/empire` (path deploy)
-Set this environment variable in Vercel Project Settings before deploy:
-
-```text
-NEXT_PUBLIC_BASE_PATH=/empire
-```
-
-Then redeploy. The app will run under `/empire` and API routes under `/empire/api`.
-
-### Option B: Render / Fly.io / Railway / VPS
-1. Build:
-
-```bash
-npm run build
-```
-
-2. Start:
-
-```bash
-npm run start
-```
-
-3. Expose port `3000` (or set `PORT` env var per host requirements)
-
 ## MVP Notes
 - Game/session data is temporary and kept in memory; restarting the server clears games.
 - Cookie sessions persist across refreshes during session TTL (12 hours).
