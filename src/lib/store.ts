@@ -2,8 +2,8 @@ import { Game, Player } from "@/src/lib/types";
 
 const GAME_TTL_SECONDS = 60 * 60 * 12;
 const GAME_TTL_MS = GAME_TTL_SECONDS * 1000;
-const KV_URL = process.env.KV_REST_API_URL;
-const KV_TOKEN = process.env.KV_REST_API_TOKEN;
+const KV_URL = process.env.KV_REST_API_URL ?? process.env.UPSTASH_REDIS_REST_URL;
+const KV_TOKEN = process.env.KV_REST_API_TOKEN ?? process.env.UPSTASH_REDIS_REST_TOKEN;
 const USE_KV = Boolean(KV_URL && KV_TOKEN);
 
 type GameStore = {

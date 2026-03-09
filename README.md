@@ -51,9 +51,12 @@ This app can deploy to any Node.js host that supports Next.js:
 ### Option A: Vercel (Root domain or subdomain)
 1. Push repo to GitHub
 2. Import into Vercel
-3. Add KV storage (required for multi-device production):
-   - In Vercel: `Storage` -> `Create Database` -> `KV`
-   - Connect it to this project (Vercel will set `KV_REST_API_URL` and `KV_REST_API_TOKEN`)
+3. Add Redis storage (required for multi-device production):
+   - In Vercel: `Storage` -> choose a Redis provider (typically Upstash in Marketplace)
+   - Connect it to this project
+   - Supported env vars:
+     - `KV_REST_API_URL` + `KV_REST_API_TOKEN` (legacy naming)
+     - or `UPSTASH_REDIS_REST_URL` + `UPSTASH_REDIS_REST_TOKEN` (common in marketplace integrations)
 3. Framework preset: Next.js
 4. Deploy
 
@@ -84,7 +87,7 @@ npm run start
 ## MVP Notes
 - Game/session data is temporary and kept in memory; restarting the server clears games.
 - Cookie sessions persist across refreshes during session TTL (12 hours).
-- If `KV_REST_API_URL` and `KV_REST_API_TOKEN` are set, game state is stored in Redis (recommended for production/multi-device).
+- If Redis REST env vars are set (`KV_*` or `UPSTASH_REDIS_*`), game state is stored in Redis (recommended for production/multi-device).
 - Without KV vars, app falls back to in-memory storage (local dev only).
 
 ## Security/Privacy
