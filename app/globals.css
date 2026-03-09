@@ -1,0 +1,36 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+}
+
+body {
+  @apply min-h-screen bg-paper text-ink;
+  background-image: radial-gradient(circle at top, #ccfbf1 0%, #f8fafc 45%);
+}
+
+main {
+  @apply mx-auto w-full max-w-2xl px-4 pb-16 pt-8;
+}
+
+.card {
+  @apply rounded-2xl border border-slate-200 bg-white p-5 shadow-sm;
+}
+
+.input {
+  @apply w-full rounded-xl border border-slate-300 px-3 py-2 text-base outline-none transition focus:border-empire focus:ring-2 focus:ring-empire/20;
+}
+
+.button {
+  @apply inline-flex items-center justify-center rounded-xl px-4 py-2 font-medium transition;
+}
+
+.button-primary {
+  @apply button bg-empire text-white hover:bg-empireDark disabled:cursor-not-allowed disabled:bg-slate-400;
+}
+
+.button-secondary {
+  @apply button border border-slate-300 bg-white text-ink hover:bg-slate-50;
+}
