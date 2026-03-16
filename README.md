@@ -1,6 +1,6 @@
 # Empire MVP
 
-MVP web app for the Empire party game setup flow:
+MVP web app for the Empire party game setup:
 - Host creates a game with optional theme and host-playing toggle
 - Invite code + invite link are generated
 - Players join, enter display name, submit exactly one secret famous person name
